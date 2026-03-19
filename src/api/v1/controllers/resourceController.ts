@@ -25,9 +25,9 @@ export const itemsHealthCheck = (req: Request, res: Response): void => {
 
 export const getAllResourcesHandler = (req: Request,res: Response,next: NextFunction)=> {
     try{
-        const items = itemService.getAllLoans();
+        const items = itemService.getAllResource();
         const count: number = items.length;
-        res.status(HTTP_STATUS.OK).json({ message: "Loan applications retrieved", count, data: items });
+        res.status(HTTP_STATUS.OK).json({ message: "Resources retrieved", count, data: items });
     }catch (error: unknown) {
         if (error instanceof Error) {
             next(error); 
@@ -39,15 +39,15 @@ export const getAllResourcesHandler = (req: Request,res: Response,next: NextFunc
 
 export const createResourceHandler = (req: Request, res: Response) => {
   try {
-    const { name, status } = req.body;
+    const { title, type, url, description } = req.body;
 
-    if (!name || !status) {
-      return res.status(400).json({ message: "Missing name or status" });
+    if (!title || !type || !url || !description) {
+      return res.status(400).json({ message: "Missing title, type, url or description" });
     }
 
-    const newProject = itemService.createProject(name, status);
+    const newResource = itemService.createResource(title, type, url, description);
 
-    return res.status(201).json(newProject);
+    return res.status(201).json(newResource);
 
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -61,9 +61,9 @@ export const getResourceHandler = (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
-    const project = itemService.getProject(id);
+    const resource = itemService.getResource(id);
 
-    return res.status(200).json(project);
+    return res.status(200).json(resource);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return res.status(404).json({ message: error.message });
@@ -75,14 +75,14 @@ export const getResourceHandler = (req: Request, res: Response) => {
 export const updateResourceHandler = (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const { name, status } = req.body;
+    const { title, type, url, description } = req.body;
 
-    const updatedProject = itemService.updateProject(id, name, status);
+    const resource = itemService.updateResource(id, title, type, url, description);
 
-    return res.status(200).json(updatedProject);
+    return res.status(200).json(resource);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      if (error.message === "Project not found") {
+      if (error.message === "Resource not found") {
         return res.status(404).json({ message: error.message });
       }
       return res.status(500).json({ message: error.message });
@@ -95,15 +95,15 @@ export const deleteResourceHandler = (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
-    const deletedProject = itemService.deleteProject(id);
+    const deletedProject = itemService.deleteResource(id);
 
     return res.status(200).json({
-      message: "Project deleted successfully",
+      message: "Resource deleted successfully",
       project: deletedProject,
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      if (error.message === "Project not found") {
+      if (error.message === "Resource not found") {
         return res.status(404).json({ message: error.message });
       }
       return res.status(500).json({ message: error.message });

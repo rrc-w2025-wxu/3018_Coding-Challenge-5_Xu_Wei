@@ -1,7 +1,5 @@
 import { resources } from "../../../data";
 import { Resource } from "../../v1/../../interface_properties";
-import admin from "firebase-admin";
-
 
 export const createResource = (title: string, type: 'article' | 'video' | 'tutorial' | 'documentation', url: string, description:string):Resource => {
     try{
@@ -55,11 +53,12 @@ export const getResource = (id: number): Resource => {
     }
 };
 
-export const updateProject = (id: number, type?: 'article' | 'video' | 'tutorial' | 'documentation', url?: string, description?:string): Resource => {
+export const updateResource = (id: number, title:string, type?: 'article' | 'video' | 'tutorial' | 'documentation', url?: string, description?:string): Resource => {
   try {
     const resource = resources.find(p => p.id === id);
     if (!resource) throw new Error("Resource not found");
 
+    if (title) resource.title = title;
     if (type) resource.type = type;
     if (url) resource.url = url;
     if (description) resource.description = description;
@@ -71,7 +70,7 @@ export const updateProject = (id: number, type?: 'article' | 'video' | 'tutorial
   }
 };
 
-export const deleteProject = (id: number): Resource => {
+export const deleteResource = (id: number): Resource => {
   try {
     const index = resources.findIndex(p => p.id === id);
     if (index === -1) throw new Error("Project not found");
