@@ -24,13 +24,16 @@ export const itemsHealthCheck = (req: Request, res: Response): void => {
 }
 
 export const getAllResourcesHandler = (req: Request,res: Response,next: NextFunction)=> {
-    try {
-        // Fetch user record from Firebase Authentication
-        const allProjects = itemService.getAllProjects();
-        res.status(HTTP_STATUS.OK).json(successResponse(allProjects));
-    } catch (error) {
-        // Pass any errors to the centralized error handler
-        next(error);
+    try{
+        const items = itemService.getAllLoans();
+        const count: number = items.length;
+        res.status(HTTP_STATUS.OK).json({ message: "Loan applications retrieved", count, data: items });
+    }catch (error: unknown) {
+        if (error instanceof Error) {
+            next(error); 
+        } else {
+            next(new Error("Unknown error"));
+        }
     }
 };
 
