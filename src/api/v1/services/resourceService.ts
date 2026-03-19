@@ -54,7 +54,6 @@ export const getResource = (id: number): Resource => {
 };
 
 export const updateResource = (id: number, title:string, type?: 'article' | 'video' | 'tutorial' | 'documentation', url?: string, description?:string): Resource => {
-  try {
     const resource = resources.find(p => p.id === id);
     if (!resource) throw new Error("Resource not found");
 
@@ -64,10 +63,6 @@ export const updateResource = (id: number, title:string, type?: 'article' | 'vid
     if (description) resource.description = description;
 
     return resource;
-  } catch (error: unknown) {
-    if (error instanceof Error) throw new Error(`Failed to update resource: ${error.message}`);
-    throw new Error("Failed to update resource: Unknown error");
-  }
 };
 
 export const deleteResource = (id: number): Resource => {
