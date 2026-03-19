@@ -23,7 +23,7 @@ export const itemsHealthCheck = (req: Request, res: Response): void => {
     res.status(HTTP_STATUS.OK).json(healthCheck);
 }
 
-export const getAllProjectsHandler = (req: Request,res: Response,next: NextFunction)=> {
+export const getAllResourcesHandler = (req: Request,res: Response,next: NextFunction)=> {
     try {
         // Fetch user record from Firebase Authentication
         const allProjects = itemService.getAllProjects();
@@ -34,7 +34,7 @@ export const getAllProjectsHandler = (req: Request,res: Response,next: NextFunct
     }
 };
 
-export const createProjectHandler = (req: Request, res: Response) => {
+export const createResourceHandler = (req: Request, res: Response) => {
   try {
     const { name, status } = req.body;
 
@@ -54,7 +54,7 @@ export const createProjectHandler = (req: Request, res: Response) => {
   }
 };
 
-export const getProjectHandler = (req: Request, res: Response) => {
+export const getResourceHandler = (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
@@ -69,7 +69,7 @@ export const getProjectHandler = (req: Request, res: Response) => {
   }
 };
 
-export const updateProjectHandler = (req: Request, res: Response) => {
+export const updateResourceHandler = (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     const { name, status } = req.body;
@@ -88,7 +88,7 @@ export const updateProjectHandler = (req: Request, res: Response) => {
   }
 };
 
-export const deleteProjectHandler = (req: Request, res: Response) => {
+export const deleteResourceHandler = (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 

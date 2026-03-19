@@ -5,10 +5,10 @@ import {
     getProjectHandler,
     updateProjectHandler,
     deleteProjectHandler,
-} from "../controllers/userController";
+} from "../controllers/Controller";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
-import { itemsHealthCheck } from "../controllers/userController";
+import { itemsHealthCheck } from "../controllers/Controller";
 
 const router: express.Router = express.Router();
 
@@ -16,35 +16,35 @@ const router: express.Router = express.Router();
 // Health check endpoint
 router.get("/health", itemsHealthCheck);
 
-router.get("/projects", 
+router.get("/resources", 
     authenticate, 
     isAuthorized({ hasRole: ["admin", "lead", "developer"] }), 
     getAllProjectsHandler
 );
 
 router.get(
-    "/projects/:id",
+    "/resources/:id",
     authenticate,
     isAuthorized({ hasRole: ["admin", "lead", "developer"] }),
     getProjectHandler
 );
 
 router.post(
-    "/projects",
+    "/resources",
     authenticate,
     isAuthorized({ hasRole: ["admin", "lead"] }),
     createProjectHandler
 );
 
 router.put(
-    "/projects/:id",
+    "/resources/:id",
     authenticate,
     isAuthorized({ hasRole: ["admin", "lead"] }),
     updateProjectHandler
 );
 
 router.delete(
-    "/projects/:id",
+    "/resources/:id",
     authenticate,
     isAuthorized({ hasRole: ["admin"] }),
     deleteProjectHandler
