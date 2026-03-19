@@ -1,5 +1,5 @@
 import express from "express";
-import Routes from "../src/api/v1/routes/Routes";
+import Routes from "./api/v1/routes/resourceRoutes";
 
 /**
  * Initialize an Express application

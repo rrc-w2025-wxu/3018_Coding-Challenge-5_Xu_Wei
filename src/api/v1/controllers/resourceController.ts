@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { successResponse } from "../models/responseModel";
 import { HealthCheckResponse } from "../../../interface_properties";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import * as itemService from "../services/Service";
+import * as itemService from "../services/resourceService";
 
 
 /**
