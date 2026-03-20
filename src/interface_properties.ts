@@ -8,9 +8,11 @@ export interface HealthCheckResponse {
     version: string;
 }
 
-export interface Project {
-  id: number;        
-  name: string;      
-  status: string;    
-  createdAt: string; 
+export interface Resource {
+    id: number;
+    title: string;
+    type: 'article' | 'video' | 'tutorial' | 'documentation';
+    url: string;
+    description: string;
+    createdAt: string;
 }

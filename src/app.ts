@@ -1,32 +1,25 @@
-import express, { Express } from "express";
-import {
-    accessLogger,
-    errorLogger,
-    consoleLogger,
-} from "./api/v1/middleware/logger";
-import errorHandler from "./api/v1/middleware/errorHandler";
-import router from "../src/api/v1/routes/Routes";
 
-// Initialize Express application
+// src/app.ts
+import dotenv from "dotenv";
+dotenv.config();
+
+import express, { Express } from "express";
+import cors from "cors";
+import { getHelmetConfig } from "./config/helmetConfig";
+import { getCorsOptions } from "./config/corsConfig";
+import setupSwagger from "./config/swagger";
+import router from "./api/v1/routes/resourceRoutes";
+
 const app: Express = express();
 
-// Logging middleware (should be applied early in the middleware stack)
-if (process.env.NODE_ENV === "production") {
-    // In production, log to files
-    app.use(accessLogger);
-    app.use(errorLogger);
-} else {
-    // In development, log to console for immediate feedback
-    app.use(consoleLogger);
-}
+app.use(getHelmetConfig());
 
-// Body parsing middleware
+app.use(cors(getCorsOptions()));
+
 app.use(express.json());
 
-// Define a route
-app.use("/api/v1", router);
+setupSwagger(app);
 
-// Global error handling middleware (MUST be applied last)
-app.use(errorHandler);
+app.use("/api/v1", router);
 
 export default app;
